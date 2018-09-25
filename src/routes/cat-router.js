@@ -30,16 +30,38 @@ router.post('/api/cats', jsonParser, (request, response) => {
     return response.json(cat);
 });
 
-//http localhost:3000/api/note/<id-recieved-from-post>
+// Following code to call get request in command line
+//http localhost:3000/api/cats/45f01800-c066-11e8-9712-6d44ba05227c
 
-router.get('/api/cats', (request, response) => {
+router.get('/api/cats/:id', (request, response) => {
     logger.log(logger.INFO, `Trying to get an object with the id ${request.params.id}`);
 
     if (storageByHash[request.params.id]) {
-        looger.log(logger.INFO, 'Responsding with a 200 cide abd json data');
+        logger.log(logger.INFO, 'Responding with a 200 code and json data');
         return response.json(storageByHash[request.params.id]);
     }
 
     logger.log(logger.INFO, 'Responding with 404 code')
     response.sendStatus(404);
 });
+
+router.delete('/api/cats/:id', (request, response) => {
+    logger.log(logger.INFO, `Trying to delete an object with the id ${request.params.id}`);
+
+    if (storageByHash[request.params.id]) {
+        logger.log(logger.INFO, 'Responding with a 204 code and json data');
+        let catId = request.params.id;
+        for (let i = 0; i < storageById.length; i++) {
+            if (catId === storageById[i].id) {
+                storageById.splice(i, 1);
+                catId.toString();
+                delete storageByHash.catId;
+                console.log(catId);
+            }
+        }
+        return response.sendStatus(204);
+    }
+
+    logger.log(logger.INFO, 'Responding with 404 code');
+    response.sendStatus(404);
+})

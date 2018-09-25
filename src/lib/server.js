@@ -9,17 +9,17 @@ const app = express();
 
 app.use(catRoutes);
 
-app.all('*', (request, response) => {
-    logger.log(logger.INFO, 'Returning 404 from catch-all/default route');
-    return response.sendStatus(404);
-});
+// app.all('*', (request, response) => {
+//     logger.log(logger.INFO, 'Returning 404 from catch-all/default route');
+//     return response.sendStatus(404);
+// });
 
 const server = module.exports = {}
 
 let internalServer= null;
 
-server.start = (process.env.PORT) => {
-    internalServer = app.listen(port, () => {
+server.start = () => {
+    internalServer = app.listen(process.env.PORT, () => {
         logger.log(logger.INFO, `Server up on PORT: ${process.env.PORT}`);
     });
     return internalServer;
