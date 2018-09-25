@@ -31,7 +31,7 @@ router.post('/api/cats', jsonParser, (request, response) => {
 });
 
 // Following code to call get request in command line
-//http localhost:3000/api/cats/45f01800-c066-11e8-9712-6d44ba05227c
+// http localhost:3000/api/cats/c4885dd0-c0f2-11e8-97c6-2f946136a41a
 
 router.get('/api/cats/:id', (request, response) => {
     logger.log(logger.INFO, `Trying to get an object with the id ${request.params.id}`);
@@ -45,18 +45,18 @@ router.get('/api/cats/:id', (request, response) => {
     response.sendStatus(404);
 });
 
+// Following code to call delete request in command line
+// curl -X DELETE localhost:3000/api/cats/c4885dd0-c0f2-11e8-97c6-2f946136a41a
+
 router.delete('/api/cats/:id', (request, response) => {
     logger.log(logger.INFO, `Trying to delete an object with the id ${request.params.id}`);
 
     if (storageByHash[request.params.id]) {
         logger.log(logger.INFO, 'Responding with a 204 code and json data');
-        let catId = request.params.id;
         for (let i = 0; i < storageById.length; i++) {
-            if (catId === storageById[i].id) {
+            if (request.params.id === storageById[i].id) {
                 storageById.splice(i, 1);
-                catId.toString();
-                delete storageByHash.catId;
-                console.log(catId);
+                delete storageByHash[request.params.id];
             }
         }
         return response.sendStatus(204);

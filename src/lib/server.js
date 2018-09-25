@@ -25,7 +25,7 @@ server.start = () => {
     return internalServer;
 };
 
-server.stop = (callback) => {
+server.stop = () => {
     internalServer.close(() => {
         logger.log(logger.INFO, 'Server is OFF');
     })
