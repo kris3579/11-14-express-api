@@ -9,8 +9,8 @@
   "scripts": {
     "test": "jest --coverage",
     "lint": "eslint .",
-    "dbOn": "",
-    "dbOff": ""
+    "dbOn": "mkdir  -p ./db && mongod --dbpath",
+    "dbOff": "killall mongod"
   },
   "keywords": [],
   "author": "",
