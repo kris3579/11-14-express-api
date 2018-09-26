@@ -2,17 +2,23 @@
 
 const express = require('express');
 const logger = require('./logger');
+const loggerMiddleware = require('./logger-middleware');
+const errorMiddleware = require('./error-middleware');
 
 const catRoutes = require('../routes/cat-router');
 
 const app = express();
 
+app.use(loggerMiddleware);
+
 app.use(catRoutes);
 
-// app.all('*', (request, response) => {
-//     logger.log(logger.INFO, 'Returning 404 from catch-all/default route');
-//     return response.sendStatus(404);
-// });
+app.all('*', (request, response) => {
+    logger.log(logger.INFO, 'Returning 404 from catch-all/default route');
+    return response.sendStatus(404);
+});
+
+app.use(errorMiddleware);
 
 const server = module.exports = {}
 
@@ -25,7 +31,7 @@ server.start = () => {
     return internalServer;
 };
 
-server.stop = (callback) => {
+server.stop = () => {
     internalServer.close(() => {
         logger.log(logger.INFO, 'Server is OFF');
     })
