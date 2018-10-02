@@ -3,30 +3,30 @@
 const logger = require('./logger');
 
 module.exports = (error, request, response, next) => { //eslint-disable-line
-    logger.log(logger.ERROR, '__ERROR_MIDDLEWARE');
+  logger.log(logger.ERROR, '__ERROR_MIDDLEWARE');
 
-    if (error.status) {
-        logger.log(logger.ERROR, `Responding with a ${error.status} code and a message of ${error.message}`);
-        return response.sendStatus(error.status);
-    }
+  if (error.status) {
+    logger.log(logger.ERROR, `Responding with a ${error.status} code and a message of ${error.message}`);
+    return response.sendStatus(error.status);
+  }
 
-    const errorMessage = error.message.toLowerCase();
+  const errorMessage = error.message.toLowerCase();
 
-    if (errorMessage.includes('objectid failed')) {
-        logger.log(logger.INFO, 'Responding with 400 code, could not validate id');
-        return response.sendStatus(400);
-    }
+  if (errorMessage.includes('objectid failed')) {
+    logger.log(logger.INFO, 'Responding with 400 code, could not validate id');
+    return response.sendStatus(400);
+  }
 
-    if (errorMessage.includes('validation failed')) {
-        logger.log(logger.INFO, 'Responding with 400 code, validation failed');
-        response.sendStatus(400)
-    }
+  if (errorMessage.includes('validation failed')) {
+    logger.log(logger.INFO, 'Responding with 400 code, validation failed');
+    response.sendStatus(400);
+  }
 
-    if (errorMessage.includes('duplicate key')) {
-        logger.log(logger.INFO, 'Responding with 409 code, duplicate value');
-        response.sendStatus(409)
-    }
+  if (errorMessage.includes('duplicate key')) {
+    logger.log(logger.INFO, 'Responding with 409 code, duplicate value');
+    response.sendStatus(409);
+  }
 
-    logger.log(logger.ERROR, 'Responding with a 500 error code');
-    return response.sendStatus(500);
+  logger.log(logger.ERROR, 'Responding with a 500 error code');
+  return response.sendStatus(500);
 };
