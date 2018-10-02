@@ -58,7 +58,7 @@ const catPostHook = (document, done) => {
     .catch(done);
 };
 
-catSchema.pre('save', catPreHook());
-catSchema.post('remove', catPostHook());
+catSchema.pre('save', catPreHook);
+catSchema.post('remove', catPostHook);
 
 module.exports = mongoose.model('cat', catSchema);
