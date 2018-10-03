@@ -7,8 +7,8 @@ const clowderMock = module.exports = {};
 
 clowderMock.pCreateClowderMock = () => {
   return new Clowder({
-    title: faker.lorem.words(5),
-    content: faker.lorem.words(5),
+    name: faker.lorem.words(5),
+    // timeStamp: new Date(),
   }).save();
 };
 
