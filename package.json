@@ -4,12 +4,13 @@
   "description": "",
   "main": "main.js",
   "directories": {
-    "lib": "lib"
+    "lib": "lib",
+    "test": "test"
   },
   "scripts": {
     "test": "eslint . && jest --coverage --forceExit --runInBand",
     "lint": "eslint .",
-    "dbOn": "mkdir  -p ./db && mongod --dbpath",
+    "dbOn": "mkdir -p ./db && mongod --dbpath ./db",
     "dbOff": "killall mongod"
   },
   "jest": {
@@ -40,3 +41,4 @@
     "winston": "^3.1.0"
   }
 }
+
