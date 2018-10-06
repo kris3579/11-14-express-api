@@ -33,6 +33,7 @@ describe('/api/clowders', () => {
     return clowderMock.pCreateClowderMock()
       .then((createdClowderMock) => {
         savedClowderMock = createdClowderMock;
+        console.log(`${API_URL}/${createdClowderMock._id}`);
         return superagent.get(`${API_URL}/${createdClowderMock._id}`);
       })
       .then((getResponse) => {
@@ -40,6 +41,32 @@ describe('/api/clowders', () => {
         expect(getResponse.body.timestamp).toBeTruthy();
         expect(getResponse.body._id.toString()).toEqual(savedClowderMock._id.toString());
         expect(getResponse.body.name).toEqual(savedClowderMock.name);
+      });
+  });
+
+  test('DELETE, should respond with 204 status code and delete the clowder if there is a matching id', () => { //eslint-disable-line
+    return clowderMock.pCreateClowderMock()
+      .then((createdClowderMock) => {
+        console.log(createdClowderMock);
+        return superagent.delete(`${API_URL}/${createdClowderMock._id}`);
+      })
+      .then((deleteResponse) => {
+        expect(deleteResponse.status).toEqual(204);
+      });
+  });
+
+  test('PUT, should respond with 200 status code and an updated clowder if there is a matching id', () => {
+    let savedClowderMock = null;
+    return clowderMock.pCreateClowderMock()
+      .then((createdClowderMock) => {
+        savedClowderMock = createdClowderMock;
+        return superagent.put(`${API_URL}/${createdClowderMock._id}`);
+      })
+      .then((putResponse) => {
+        expect(putResponse.status).toEqual(200);
+        expect(putResponse.body.timestamp).toBeTruthy();
+        expect(putResponse.body._id.toString()).toEqual(savedClowderMock._id.toString());
+        expect(putResponse.body.name).not.toEqual(savedClowderMock.name);
       });
   });
 });
